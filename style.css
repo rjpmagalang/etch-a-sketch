@@ -1,19 +1,12 @@
 body {
-    /* width: 1140px;
+    width:960px;
     margin:auto;
-    padding: auto; */
-
-    min-width: 600px;
-    outline: none;
+    padding: auto;
 }
 #container {
-    /* margin-top: 20px;
+    margin-top: 20px;
     width: 960px;
-    height: 960px; */
-    
-    width:max-content;
-    margin:auto;
-
+    height: 960px;
     border: 2px solid;
     display: grid;
     grid-template-rows: repeat(var(--rowNum), 1fr);
