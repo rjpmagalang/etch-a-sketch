@@ -1,39 +1,45 @@
-const container = document.querySelector("#container");
-const reset = document.querySelector("#reset");
-const resize = document.querySelector("#resize");
+var button = document.getElementById("enter");
+var input = document.getElementById("userinput");
+var ul = document.querySelector("ul");
 
-
-createGrid();
-
-function createGrid() {
-    let gridNum = document.querySelector("#gridNum");
-
-    let grid = prompt("enter grid number");
-
-    for(i=0; i<(Math.pow(grid, 2)); i++){
-        let createDiv = document.createElement("div");
-        container.appendChild(createDiv);
-    }
-
-    gridNum.innerText = grid + " x " + grid;
-
-    container.style.setProperty("--colNum", grid);
-    container.style.setProperty("--rowNum", grid); 
+function inputLength() {
+  return input.value.length;
 }
 
-function clearGrid(e) {
-    let gridItems = document.querySelectorAll('div');
-    gridItems.forEach(div => {
-        div.style.backgroundColor = "aquamarine";
-    });
+function createListElement() {
+  var li = document.createElement("li");
+  li.addEventListener("click", toggleClassItem);
+  li.appendChild(document.createTextNode(input.value));
+  ul.appendChild(li);
+  input.value = "";
+
+  var remove = document.createElement("button");
+  remove.innerHTML = "remove";
+  remove.addEventListener("click", removeItem);
+  li.appendChild(remove);
+
+  function removeItem() {
+    var item = this.closest("li");
+    item.remove();
+  };
+
+  function toggleClassItem() {
+    var item = this.closest("li");
+    li.classList.toggle("done");
+  }
 }
 
-resize.addEventListener("click", (e) => {
-    location.reload();
-})
+function addListAfterClick() {
+  if (inputLength() > 0) {
+    createListElement();
+  }
+}
 
-reset.addEventListener("click", clearGrid);
+function addListAfterKeypress(event) {
+  if (inputLength() > 0 && event.keyCode === 13) {
+    createListElement();
+  }
+}
 
-container.addEventListener("mouseover", (e) => {
-    event.target.style.backgroundColor = "black";
-});
+button.addEventListener("click", addListAfterClick);
+input.addEventListener("keypress", addListAfterKeypress);
