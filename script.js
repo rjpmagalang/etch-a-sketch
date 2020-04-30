@@ -5,8 +5,6 @@ const black = document.querySelector("#black");
 const shade = document.querySelector("#shade");
 const random = document.querySelector("#random");
 
-input.addEventListener("keypress", addInputNum);
-
 function addInputNum() {
     if (event.keyCode === 13) {  
         container.textContent = ""; 
@@ -38,42 +36,56 @@ function createGrid() {
     container.style.setProperty("--rowNum", grid); 
 }
 
-reset.addEventListener("click", clearGrid);
-
 function clearGrid() {
-    let gridItems = document.querySelectorAll('div');
-    gridItems.forEach(div => {
-        div.style.backgroundColor = "aquamarine";
+    let bodyStyle = getComputedStyle(document.body);
+    let cells = document.querySelectorAll('div');
+
+    cells.forEach(div => {
+        div.style.backgroundColor = bodyStyle.getPropertyValue("--bgcolor");
     });
 }
-
-black.addEventListener("click", blackColor);
 
 function blackColor() {
-    container.addEventListener("mouseover", () => {
-        event.target.style.backgroundColor = "black";
+    let cells = document.querySelectorAll('div');
+    
+    cells.forEach(div => {
+        div.addEventListener("mouseover", () => {
+            event.target.style.backgroundColor = "black";
+        });
     });
+    
 }
-
-random.addEventListener("click", randomColor);
 
 function randomColor() {
-    container.addEventListener("mouseover", () => {
-        const r = Math.floor(Math.random()*255);
-        const g = Math.floor(Math.random()*255);
-        const b = Math.floor(Math.random()*255);
-        const rgb = "rgb(" + r + ", " + g+ ", " + b + ")";
-        event.target.style.backgroundColor = rgb;
-    });
-}
+    let cells = document.querySelectorAll('div');
 
-shade.addEventListener("click", shadeColor);
+    cells.forEach(div => {
+        div.addEventListener("mouseover", () => {
+            const r = Math.floor(Math.random()*255);
+            const g = Math.floor(Math.random()*255);
+            const b = Math.floor(Math.random()*255);
+            const rgb = "rgb(" + r + ", " + g+ ", " + b + ")";
+            event.target.style.backgroundColor = rgb;
+        });
+    });
+
+}
 
 function shadeColor() {
-    let num = 0;
-    num = num + 0.1;
+    let cells = document.querySelectorAll('div');
 
-    container.addEventListener("mouseover", () => {
-        event.target.style.backgroundColor = "rgba(0, 0, 0, " + (num++ * 0.1) + ")";     
+cells.forEach(div => {
+    div.addEventListener("mouseover", (event) => {
+        let num = Number(event.target.style.opacity);
+
+        event.target.style.backgroundColor = "black";
+        event.target.style.opacity = num + 0.2;     
     })
+});
 }
+
+input.addEventListener("keypress", addInputNum);
+reset.addEventListener("click", clearGrid);
+black.addEventListener("click", blackColor);
+random.addEventListener("click", randomColor);
+shade.addEventListener("click", shadeColor);
