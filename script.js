@@ -4,18 +4,34 @@ const reset = document.querySelector("#reset");
 const black = document.querySelector("#black");
 const shade = document.querySelector("#shade");
 const random = document.querySelector("#random");
+const btns = document.getElementsByTagName("button");
+
+function isButtonActive() {
+    for (let i = 0; i < btns.length; i++) {
+        btns[i].addEventListener("click", function() {
+        let current = document.getElementsByClassName("active");
+        current[0].className = current[0].className.replace("active", "");
+        this.className += "active";
+        });
+      }
+}
+
+isButtonActive();
+
+function inputNum() {
+    return input.value;
+}
 
 function addInputNum() {
     if (event.keyCode === 13) {  
-        container.textContent = ""; 
+        container.textContent = "";
         createGrid();
     }
   }
 
 function createGrid() {
     let gridNum = document.querySelector("#gridNum");
-    
-    let grid = input.value;
+    let grid = inputNum();
 
     if (isNaN(grid)){
         alert("not a number");
@@ -37,18 +53,15 @@ function createGrid() {
 }
 
 function clearGrid() {
-    let bodyStyle = getComputedStyle(document.body);
-    let cells = document.querySelectorAll('div');
-
-    cells.forEach(div => {
-        div.style.backgroundColor = bodyStyle.getPropertyValue("--bgcolor");
-    });
+    container.textContent = "";
+    createGrid();
 }
 
 function blackColor() {
     let cells = document.querySelectorAll('div');
     
     cells.forEach(div => {
+        div.style.opacity = 1;
         div.addEventListener("mouseover", () => {
             event.target.style.backgroundColor = "black";
         });
@@ -56,19 +69,23 @@ function blackColor() {
     
 }
 
+function randomNum() {
+    return Math.floor(Math.random()*255);
+}
+
 function randomColor() {
     let cells = document.querySelectorAll('div');
 
     cells.forEach(div => {
+        div.style.opacity = 1;
         div.addEventListener("mouseover", () => {
-            const r = Math.floor(Math.random()*255);
-            const g = Math.floor(Math.random()*255);
-            const b = Math.floor(Math.random()*255);
+            const r = randomNum();
+            const g = randomNum();
+            const b = randomNum();
             const rgb = "rgb(" + r + ", " + g+ ", " + b + ")";
             event.target.style.backgroundColor = rgb;
         });
     });
-
 }
 
 function shadeColor() {
